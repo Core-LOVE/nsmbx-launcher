@@ -203,7 +203,7 @@ void initApp(App *a)
 
     a->m_windowTitle = NULL;
     a->m_windowWidth = 600;
-    a->m_windowHeight = 506;
+    a->m_windowHeight = 432;
 
     a->m_font = NULL;
     a->m_back = NULL;
