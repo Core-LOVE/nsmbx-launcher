@@ -1,0 +1,7 @@
+[main]
+title = "Привет мир!"
+
+[app]
+game = "./thextech"
+editor = "./PGE/pge_editor"
+
