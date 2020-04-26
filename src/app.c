@@ -44,7 +44,6 @@ int executeProcess(const char *path, char *const argv[])
     wchar_t args_w[1024];
     char * const*arg;
     wchar_t *arg_w;
-    wchar_t *path_w;
     STARTUPINFOW startupInfo =
     {
         sizeof( STARTUPINFO ), 0, 0, 0,
@@ -63,19 +62,16 @@ int executeProcess(const char *path, char *const argv[])
 
     SDL_memset(args_w, 0, sizeof(args_w));
 
-    path_w = (wchar_t*)SDL_iconv_utf8_ucs2(path);
-    wcscat_s(args_w, 1024, L"\"");
-    wcscat_s(args_w, 1024, path_w);
-    wcscat_s(args_w, 1024, L"\"");
-    SDL_free(path_w);
-
     arg = argv;
     while(*arg)
     {
         arg_w = (wchar_t*)SDL_iconv_utf8_ucs2(*arg);
         arg++;
-        wcscat_s(args_w, 1024, L" ");
+        if(args_w[0] == '\\')
+            wcscat_s(args_w, 1024, L" ");
+        wcscat_s(args_w, 1024, L"\"");
         wcscat_s(args_w, 1024, arg_w);
+        wcscat_s(args_w, 1024, L"\"");
         SDL_free(arg_w);
     }
 
@@ -87,6 +83,11 @@ int executeProcess(const char *path, char *const argv[])
     {
         CloseHandle(pinfo.hThread);
         CloseHandle(pinfo.hProcess);
+        SDL_Log("Started!");
+    }
+    else
+    {
+        SDL_Log("Executing process was unsuccess: [%s]", path);
     }
 
     return 0;
