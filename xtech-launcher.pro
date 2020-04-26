@@ -3,16 +3,24 @@ CONFIG -= console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-win32: CONFIG += static
+CONFIG += static
 
 TARGET = xtech-launcher
 
-!win32: LIBS += -no-pie
-win32: LIBS += -static  -lmingw32 -lSDL2main
-LIBS += -lSDL2-static
-win32: LIBS += -lversion -lopengl32 -ldbghelp -ladvapi32 -lole32 -loleaut32 -luuid \
-               -lkernel32 -lwinmm -limm32 -lgdi32 -luser32 -lsetupapi -static-libgcc
-!win32: QMAKE_CFLAGS += -posix
+win32 {
+    LIBS += -static  -lmingw32 -lSDL2main
+    LIBS += -lSDL2-static
+    LIBS += -lversion -lopengl32 -ldbghelp -ladvapi32 -lole32 -loleaut32 -luuid \
+            -lkernel32 -lwinmm -limm32 -lgdi32 -luser32 -lsetupapi -static-libgcc
+}
+
+unix {
+    LIBS += -no-pie
+    LIBS += -static-libgcc
+    LIBS += $$system(pkg-config --static --libs sdl2)
+    QMAKE_CFLAGS += -posix $$system(pkg-config --static --cflags sdl2)
+}
+
 QMAKE_CFLAGS += -std=c90
 QMAKE_CFLAGS_RELEASE += -O3
 
