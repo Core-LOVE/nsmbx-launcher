@@ -59,6 +59,8 @@ int executeProcess(const char *path, char *const argv[])
     if(SDL_strlen(path) == 0)
         return -1;
 
+    SDL_Log("Executing process: [%s]", path);
+
     SDL_memset(args_w, 0, sizeof(args_w));
 
     path_w = (wchar_t*)SDL_iconv_utf8_ucs2(path);
@@ -236,12 +238,16 @@ int initSdl(void)
 
 void quitSdl(App *a)
 {
+    if(a->m_font)
+        SDL_DestroyTexture(a->m_font);
+    if(a->m_splash)
+        SDL_DestroyTexture(a->m_splash);
+    if(a->m_back)
+        SDL_DestroyTexture(a->m_back);
     if(a->m_gRenderer)
         SDL_DestroyRenderer(a->m_gRenderer);
     if(a->m_window)
         SDL_DestroyWindow(a->m_window);
-    if(a->m_font)
-        SDL_DestroyTexture(a->m_font);
     if(a->m_windowTitle)
         SDL_free(a->m_windowTitle);
     if(a->m_gamePath)
@@ -263,8 +269,8 @@ void loadSetup(App *a)
 {
     ini_t *i = ini_load("launcher.ini");
     ini_read_str(i, "main", "title", &a->m_windowTitle, "<Untitled game launcher>");
-    ini_read_str(i, "app", "game", &a->m_gamePath, "");
-    ini_read_str(i, "app", "editor", &a->m_editorPath, "");
+    ini_read_str(i, "app", "game", &a->m_gamePath, NULL);
+    ini_read_str(i, "app", "editor", &a->m_editorPath, NULL);
     ini_free(i);
 }
 
