@@ -18,6 +18,8 @@ QMAKE_CFLAGS_RELEASE += -O3
 
 INCLUDEPATH += lib res
 
+win32: RC_FILE = res/nsmbx.rc
+
 SOURCES += \
         lib/ini.c \
         src/app.c \
