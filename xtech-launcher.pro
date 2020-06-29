@@ -9,7 +9,11 @@ TARGET = xtech-launcher
 
 win32 {
     LIBS += -static  -lmingw32 -lSDL2main
-    LIBS += -lSDL2-static
+    mxe:{
+        LIBS += -lSDL2 -lsamplerate
+    } else {
+        LIBS += -lSDL2-static
+    }
     LIBS += -lversion -lopengl32 -ldbghelp -ladvapi32 -lole32 -loleaut32 -luuid \
             -lkernel32 -lwinmm -limm32 -lgdi32 -luser32 -lsetupapi -static-libgcc
 }
