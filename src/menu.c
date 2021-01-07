@@ -137,7 +137,7 @@ void renderMenu(Menu *m, App *app)
     /* Background */
     renderTextureS(app, 0, 0, app->m_back);
     /* Splash logo */
-    renderTextureS(app, 113, 80, app->m_splash);
+    renderTextureS(app, 50, 80, app->m_splash);
 
     /* Menu items */
     for(i = 0; i < m->s_menu_count; i++)
